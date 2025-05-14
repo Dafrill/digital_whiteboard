@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Wheel z Paddingiem i Grubszym Borderem</title>
+    <link rel="stylesheet" href="./output.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        height: 100vh;
+        background: #ffffff;
+      }
+      .color-wheel {
+        position: relative;
+        width: 50vw;
+        height: 50vh;
+        border-radius: 50%;
+        background: conic-gradient(
+          hsl(0, 50%, 46%),
+          hsl(60, 51%, 52%),
+          hsl(120, 40%, 29%),
+          hsl(180, 40%, 44%),
+          hsl(240, 36%, 17%),
+          hsl(300, 21%, 36%),
+          hsl(0, 50%, 46%)
+        );
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
+        cursor: crosshair;
+      }
+      .color-indicators {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .color-indicator {
+        width: 5%;
+        height: 5%;
+        border-radius: 50%;
+        padding: 5px;
+        border: 4px solid transparent; /* Grubszy border */
+        cursor: pointer;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+      .color-indicator.active {
+        border: 4px solid rgb(255, 255, 255);
+        outline: 4px solid rgb(102, 102, 253); /* Fioletowy border dla aktywnego kółeczka */
+      }
+      .controls {
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="color-wheel" id="colorWheel"></div>
+    <div class="controls text-[xs]">
+      <label for="brightness">Jasność: </label>
+      <input type="range" id="brightness" min="10" max="100" value="50" />
+    </div>
+    <div class="color-indicators" id="colorIndicators">
+      <div
+        class="color-indicator active"
+        style="background: hsl(0, 100%, 50%)"
+      ></div>
+      <div class="color-indicator" style="background: hsl(60, 100%, 50%)"></div>
+      <div
+        class="color-indicator"
+        style="background: hsl(120, 100%, 50%)"
+      ></div>
+      <div
+        class="color-indicator"
+        style="background: hsl(180, 100%, 50%)"
+      ></div>
+    </div>
+
+    <div class="controls text-[xs]">
+      <label for="thickness">Grubość: </label>
+      <input type="range" id="thickness" min="10" max="100" value="11.8" />
+    </div>
+
+    <script>
+      const colorWheel = document.getElementById("colorWheel");
+      const brightnessSlider = document.getElementById("brightness");
+      const colorIndicators = document.querySelectorAll(".color-indicator");
+
+      let activeIndicator = document.querySelector(".color-indicator.active"); // Domyślnie aktywne pierwsze kółeczko
+      let brightness = 50; // Domyślna jasność ustawiona na 50%
+      let isPaused = false; // Czy zmiana koloru jest zatrzymana?
+
+      let thicknessSlider = document.getElementById("thickness");
+      thicknessSlider.addEventListener("input", (event) => {
+        let thickness = event.target.value;
+
+        thicknessSlider.addEventListener("pointerup", (event) => {
+          console.log(` thickness value: ${thickness}`);
+          window.top.postMessage({ id: "pen_thickness", data: thickness }, "*");
+        });
+      });
+      // Aktualizacja jasności koła barw
+      brightnessSlider.addEventListener("input", (event) => {
+        brightness = event.target.value;
+        updateColorWheel();
+      });
+
+      // Funkcja aktualizująca gradient koła barw w zależności od jasności
+      function updateColorWheel() {
+        const gradient = `conic-gradient(
+                hsl(0, 100%, ${brightness}%), hsl(60, 100%, ${brightness}%),
+                hsl(120, 100%, ${brightness}%), hsl(180, 100%, ${brightness}%),
+                hsl(240, 100%, ${brightness}%), hsl(300, 100%, ${brightness}%),
+                hsl(0, 100%, ${brightness}%)
+            )`;
+        colorWheel.style.background = gradient;
+      }
+
+      // Obsługa kliknięcia na kółeczko
+      colorIndicators.forEach((indicator) => {
+        indicator.addEventListener("click", () => {
+          // Usuwamy "active" z poprzedniego kółeczka
+          if (activeIndicator) {
+            activeIndicator.classList.remove("active");
+          }
+          // Dodajemy "active" do nowo klikniętego kółeczka
+          indicator.classList.add("active");
+          activeIndicator = indicator;
+          isPaused = false; // Wznowienie zmiany koloru po kliknięciu
+
+          console.log(indicator.style.background);
+          window.top.postMessage(
+            { id: "pen_color", data: indicator.style.background },
+            "*"
+          );
+        });
+      });
+
+      // Obsługa kliknięcia na koło barw
+      colorWheel.addEventListener("click", () => {
+        isPaused = !isPaused; // Przełączamy stan "pauzy"
+      });
+
+      // Obsługa ruchu myszy nad kołem barw, aby zmienić kolor aktywnego kółeczka
+      colorWheel.addEventListener("mousemove", (event) => {
+        if (isPaused || !activeIndicator) return; // Jeśli pauza aktywna, pomijamy
+
+        const rect = colorWheel.getBoundingClientRect();
+        const x = event.clientX - rect.left - rect.width / 2;
+        const y = event.clientY - rect.top - rect.height / 2;
+        const angle = Math.atan2(y, x) * (180 / Math.PI) + 180;
+
+        // Wyznaczenie koloru w zależności od kąta
+        const hue = Math.round(angle); // Odcień
+        const color = `hsl(${hue}, 100%, ${brightness}%)`;
+
+        // Zmieniamy tło aktywnego kółeczka
+        activeIndicator.style.background = color;
+        window.top.postMessage(color, "*");
+        console.log(`color: ${activeIndicator.style.background}`);
+      });
+
+      // Inicjalizacja na start
+      updateColorWheel();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>copy</title>
+    <link rel="stylesheet" href="./output.css" />
+  </head>
+  <body>
+    <div class="flex gap-x-4 items-center">
+      <img
+        id="copy_icon"
+        class="w-11 p-2 rounded-lg transition duration-300 active:bg-slate-300"
+        src="./copy_icon.png"
+        alt=""
+      />
+      <p id="url" class="text-3xl p-1">www.blblgdtsyrsrtsrsrsrsblb.pl</p>
+    </div>
+    <script>
+      changeParagraphText();
+      document
+        .getElementById("copy_icon")
+        .addEventListener("click", function () {
+          // Pobierz tekst z paragrafu
+          const text = document.getElementById("url").textContent;
+
+          // Skopiuj tekst do schowka
+          navigator.clipboard
+            .writeText(text)
+            .then(function () {
+              //console.log("Tekst został skopiowany do schowka!");
+              //alert("Tekst został skopiowany!");
+            })
+            .catch(function (err) {
+              console.error("Błąd podczas kopiowania tekstu: ", err);
+            });
+        });
+
+      function changeParagraphText() {
+        const paragraph = document.getElementById("url");
+        if (paragraph) {
+          paragraph.textContent = window.parent.location.href;
+        } else {
+          console.error("Nie znaleziono paragrafu o podanym ID.");
+        }
+      }
+    </script>
+  </body>
+</html>

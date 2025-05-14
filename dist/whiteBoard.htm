@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interaktywna Tablica</title>
+    <link rel="stylesheet" href="./output.css" />
+    <style>
+      .buttons img {
+        width: 4vw;
+        padding: 10%;
+        border-radius: 15px;
+        height: auto;
+        border: 3px solid white;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      style="
+        position: absolute;
+        width: 6vw;
+        padding: 0.5%;
+        padding-top: 2.3%;
+        display: flex;
+        margin-left: 2.3vw;
+        margin-top: 10vh;
+        align-items: start;
+        border: 2px solid black;
+        padding-bottom: 2%;
+        border-radius: 50px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          row-gap: 5vh;
+          justify-content: center;
+          align-items: center;
+          margin-left: 0.4vw;
+        "
+        class="buttons"
+      >
+        <img
+          id="bt1"
+          src="./Iconsmind-Outline-Pen.48.png"
+          class="bg-black"
+          onclick=""
+          alt=""
+          style="background: #ffffff"
+        />
+        <img
+          id="bt2"
+          src="./Iconsmind-Outline-Pen.48.png"
+          style="background: #ffffff"
+          alt=""
+        />
+        <img
+          id="bt3"
+          src="./rubber_icon.svg"
+          style="background: #ffffff"
+          alt=""
+        />
+        <img
+          id="bt4"
+          src="./move_icon.svg"
+          style="background: #ffffff"
+          alt=""
+        />
+        <img
+          id="bt5"
+          src="./share_icon.svg"
+          style="background: #ffffff"
+          alt=""
+        />
+      </div>
+    </div>
+    <iframe
+      src="./colorWheel.htm"
+      frameborder="0"
+      width="200vw"
+      height="200vh"
+      class="absolute ml-[6.3vw]"
+    ></iframe>
+
+    <canvas id="board" width="90vw" height="100vh" class=""> /></canvas>
+  </body>
+</html>
