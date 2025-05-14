@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .wButtons img {
+    width: 1vw;
+    height: fit-content;
+  }
+  .glass {
+    background-color: rgba(244, 227, 227, 0.7);
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+    border: 3px solid #4c4c4c;
+  }
+  .logButtons {
+    @apply bg-[#2f4156] text-white rounded-full px-5 py-2 hover:bg-red-400;
+  }
+  /* @media only screen and (max-width: 767px) {
+    .visibility {
+      display: hidden !important;
+    }
+  } */
+  @media only screen and (min-width: 914px) {
+    .responsive {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+    }
+  }
+  @media only screen and (max-width: 913px) {
+    .responsive {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+    }
+  }
+
+  @media only screen and (max-width: 710px) {
+    .responsive {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+    }
+  }
+  @media only screen and (max-width: 535px) {
+    .responsive {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+    }
+  }
+  @media only screen and (max-width: 390px) {
+    .responsive {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+    }
+  }
+
+  .cuteDropdown div {
+    @apply rounded cursor-pointer border-solid border-[2px] border-borderColor  text-primary;
+    /* px-5 py-2 */
+  }
+  .cuteDropdown2 {
+    @apply rounded cursor-pointer border-solid border-[2px] border-borderColor  text-primary;
+  }
+  .cuteDropdownPadding {
+    @apply py-2  text-center;
+  }
+
+  .cuteList p {
+    @apply text-sm px-5 py-2 hover:bg-[#f2e2e0];
+  }
+
+  .cuteBorder input {
+    @apply cuteDropdown2 cuteDropdownPadding w-16;
+  }
+  .svgRotate {
+    transform: rotate(180deg);
+  }
+
+  .hiddenXD {
+    display: none;
+  }
+
+  .flexXD {
+    display: flex;
+  }
+
+  .searchingButton {
+    float: left;
+    /* width: 20%; */
+
+    color: white;
+    font-size: 17px;
+    @apply rounded-l h-12 rounded-r-3xl  cursor-pointer border-solid border-[3px] border-rose-300 bg-rose-300;
+  }
+
+  .icon {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+
+    stroke: rgb(235, 241, 247);
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .icon2 {
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .icon,
+  .icon2 {
+    stroke: rgb(32, 43, 52);
+  }
+}
