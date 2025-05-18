@@ -11,6 +11,8 @@ ctx.strokeStyle = "black";
 ctx.lineWidth = 2; //0.8 the smallest
 let rysowanie = false;
 
+ctx.shadowBlur = 1;
+
 const elements = document.querySelectorAll('[id^="bt"]');
 const wheels = document.querySelectorAll('[id^="wheel"]');
 
@@ -38,6 +40,7 @@ elements.forEach((element) => {
   console.log("Activating buttons");
   element.addEventListener("click", (event) => {
     console.log("a button has been clicked");
+
     allows.fill(false);
     if (element.id === event.target.id) {
       console.log(`Clicked ${event.target.id}`);
@@ -156,6 +159,7 @@ elements.forEach((element) => {
               if (!rysowanie || !allows[0]) return;
 
               if (allows[0]) {
+                ctx.shadowColor = ctx.strokeStyle;
                 const rect = canvas.getBoundingClientRect();
                 const scaleX = canvasWidth / rect.width;
                 const scaleY = canvasHeight / rect.height;
@@ -171,6 +175,22 @@ elements.forEach((element) => {
               }
             });
           }
+          break;
+        case "bt3":
+          allows[1] = true;
+          allows[0] = true;
+
+          ctx.strokeStyle = "white";
+
+          let setSize = document.getElementById("thickness");
+          setSize.addEventListener("change", () => {
+            if (allows[1]) {
+              let inputValue = Number(setSize.value);
+              ctx.lineWidth = inputValue - 10;
+              updateCursor(ctx.lineWidth);
+            }
+          });
+
           break;
       }
     }
@@ -205,10 +225,10 @@ function toggleBackgroundColor(element) {
     allows.fill(false);
     //alert(allows);
     //alert(`all to draw: ${allowedToDraw}, all to move: ${allowedToMove}`);
-    console.log(allows);
-    console.log(
-      ` color changed to white: Allowe to move: ${allowedToMove}, all to draw: ${allowedToDraw}`
-    );
+    //console.log(allows);
+    //console.log(
+    //   ` color changed to white: Allowe to move: ${allowedToMove}, all to draw: ${allowedToDraw}`
+    // );
     wheels.forEach((wheel) => {
       if (
         wheel.id.slice(-1) == element.id.slice(-1) &&
@@ -230,6 +250,24 @@ elements.forEach((element) => {
 });
 
 function ChangeBg(id) {}
+
+function updateCursor(size) {
+  let cursorCanvas = document.createElement("canvas");
+  cursorCanvas.width = size * 1.4;
+  cursorCanvas.height = size * 1.4;
+
+  let setSize = cursorCanvas.width;
+
+  let ctx = cursorCanvas.getContext("2d");
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Kolor kursora
+  ctx.beginPath();
+  ctx.arc(setSize / 2, setSize / 2, setSize / 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  document.body.style.cursor = `url(${cursorCanvas.toDataURL()}) ${
+    setSize / 1.5
+  } ${setSize / 1.5}, auto`;
+}
 
 //if a button is clicked, it changes backgroud (it becomes grey) and the other buttons change to white
 window.onclick = function (event) {

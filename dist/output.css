@@ -814,6 +814,10 @@ video {
   margin-top: 64.5vh;
 }
 
+.block{
+  display: block;
+}
+
 .flex{
   display: flex;
 }
@@ -966,6 +970,10 @@ video {
 
 .transform{
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.resize{
+  resize: both;
 }
 
 .flex-row{
@@ -1180,8 +1188,12 @@ video {
   --tw-gradient-to: #fecaca var(--tw-gradient-to-position);
 }
 
-.bg-\[20px\]{
-  background-position: 20px;
+.bg-cover{
+  background-size: cover;
+}
+
+.bg-\[0\.1\%\]{
+  background-position: 0.1%;
 }
 
 .bg-repeat{
